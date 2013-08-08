@@ -1,0 +1,32 @@
+#require 'tempfile'
+
+#namespace :setup do
+#	desc "design and layout"
+#	task :design_layout do
+#		puts "Adding bootstrap gem to Gemfile."
+		tem_file = Temp.new('Gemfile')
+		line = { shiv: "<%= render 'layouts/htmlshiv' %>", header: "<%= render 'layouts/header' %>", footer:  "<%= render 'layouts/shim' %>" }
+		line_before = { shiv: "<%= csrf_meta_tags %>", header: "<body>", footer: "<%= yield %>"}
+		begin 
+			Flie.readlines('Gemfile').each do |line|
+				temp_file.puts(line)
+
+				if line.chomp == line_before[:shiv]
+					temp_file.puts(line[:shiv])
+end
+				if line.chomp == line_before[:header]
+					temp_file.puts(line[:header])
+end
+				if line.chomp == line_before[:footer]
+					temp_file.puts(line[:footer])
+end
+			end
+
+			temp_file.close
+
+			mv temp_file.path, 'Gemfile'
+
+		ensure
+			temp_file.delete
+		end
+end

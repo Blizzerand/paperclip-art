@@ -1,0 +1,31 @@
+namespace :setup do 
+	desc "Cleaning up genmfile"
+	task :cleanup => :init
+		
+	  print "Clean up the standard Gemfile for a new one?(y/n): "
+	  option = STDIN.gets.strip
+	  	case option
+	  	
+	   		when  /[Yy]/ 
+	    	puts "Setting a new Gemfile."
+	  		mv 'lib/tasks/Gemfile', '.', verbose: false
+
+	  		puts "Running bundle install. This may take a while...\n\n"
+	  		#sh "bundle install"
+
+	  		when /[^Yy]/
+	  		break
+	  	end
+	  		#print "Do you wish to setup git?(y/n): "
+	  		#option2 = STDIN.gets.strip
+	   	
+	   		##if option2.to_s[0] =~ /[Yy]/
+	   			
+	   		#	load "lib/tasks/git.rake"
+	   		#	Rake::Task["setup:git"].invoke
+
+	   		
+	   		#end 
+	  	#end
+	end
+end

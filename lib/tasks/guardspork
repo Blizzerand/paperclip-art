@@ -1,0 +1,29 @@
+namespace :setup do
+	desc "Guard + Spork setup"
+	task :guard_spork do
+		puts "Installing gems for rspec-rails, guard-rspec, selenium-webdriver and capybara"
+		
+		temp_file = Tempfile.new('Gemfile')	
+		gems = { rspec_rails: "gem 'rspec-rails', '2.13.1'", guard_rspec: "gem 'guard-rspec', '2.5.0' ", selenium_webdriver:  "gem 'selenium-webdriver', '2.0.0'", capybara: " gem 'capybara', '2.1.0'", libnotify: " gem 'libnotify', '0.8.0'" }
+			begin 
+				File.readlines('Gemfile').each do |line|
+					temp_file.puts(line)
+
+					if line.include?("#development_test")
+						temp_file.puts(gems[:rspec_rails])
+						temp_file.puts(gems[:guard_rspec])
+					end
+					if line.include?("#tests") 
+						temp_file.puts(gems[:selenium_webdriver])
+						temp_file.puts(gems[:capybara])
+						temp_file.puts(gems[:libnotify])
+					end
+				end
+				temp_file.close
+				mv temp_file.path, 'Gemfile'
+		
+			ensure 
+				temp_file.delete
+			end
+	end
+end
